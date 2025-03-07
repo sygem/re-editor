@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 
 class ReEditor {
-
   final String foo;
   final String bar;
 
@@ -12,5 +11,4 @@ class ReEditor {
       print('hello $name');
     }
   }
-
 }
