@@ -1,6 +1,6 @@
 {
-    "name": "example",
-    "short_name": "example",
+    "name": "re_editor_exmaple",
+    "short_name": "re_editor_exmaple",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
