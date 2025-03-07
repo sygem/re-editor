@@ -51,8 +51,7 @@ class _CodeShortcutsState extends State<_CodeShortcuts> {
     }
     // Protect space key go to the IME.
     _shortcuts.addAll({
-      const SingleActivator(LogicalKeyboardKey.space):
-          const DoNothingAndStopPropagationTextIntent(),
+      const SingleActivator(LogicalKeyboardKey.space): const DoNothingAndStopPropagationTextIntent(),
     });
   }
 }
@@ -105,8 +104,7 @@ class _CodeShortcutActions extends StatelessWidget {
     return Actions(actions: {
       ...actions,
       ...{
-        DoNothingAndStopPropagationTextIntent:
-            DoNothingAction(consumesKey: false),
+        DoNothingAndStopPropagationTextIntent: DoNothingAction(consumesKey: false),
       },
       if (overrideActions != null) ...overrideActions!
     }, child: child);
@@ -114,9 +112,7 @@ class _CodeShortcutActions extends StatelessWidget {
 
   Object? _onAction(BuildContext context, Intent intent) {
     final Action<Intent>? action = Actions.maybeFind(context, intent: intent);
-    if (action != null &&
-        action.isActionEnabled &&
-        action.consumesKey(intent)) {
+    if (action != null && action.isActionEnabled && action.consumesKey(intent)) {
       if (action is CallbackAction) {
         action.invoke(intent);
       }
@@ -129,49 +125,48 @@ class _CodeShortcutActions extends StatelessWidget {
       return null;
     }
     bool keepAutoCompleateState = false;
-    switch (intent.runtimeType) {
-      case CodeShortcutSelectAllIntent:
+    switch (intent.runtimeType.toString()) {
+      case 'CodeShortcutSelectAllIntent':
         {
           editingController.selectAll();
           break;
         }
-      case CodeShortcutLineSelectIntent:
+      case 'CodeShortcutLineSelectIntent':
         {
-          editingController.selectLines(editingController.selection.baseIndex,
-              editingController.selection.extentIndex);
+          editingController.selectLines(editingController.selection.baseIndex, editingController.selection.extentIndex);
           break;
         }
-      case CodeShortcutCutIntent:
+      case 'CodeShortcutCutIntent':
         {
           editingController.cut();
           break;
         }
-      case CodeShortcutCopyIntent:
+      case 'CodeShortcutCopyIntent':
         {
           editingController.copy();
           break;
         }
-      case CodeShortcutPasteIntent:
+      case 'CodeShortcutPasteIntent':
         {
           editingController.paste();
           break;
         }
-      case CodeShortcutUndoIntent:
+      case 'CodeShortcutUndoIntent':
         {
           editingController.undo();
           break;
         }
-      case CodeShortcutRedoIntent:
+      case 'CodeShortcutRedoIntent':
         {
           editingController.redo();
           break;
         }
-      case ShortcutLineDeleteIntent:
+      case 'ShortcutLineDeleteIntent':
         {
           editingController.deleteSelectionLines(true);
           break;
         }
-      case ShortcutLineDeleteDirectionIntent:
+      case 'ShortcutLineDeleteDirectionIntent':
         {
           if ((intent as ShortcutLineDeleteDirectionIntent).forward) {
             editingController.deleteLineForward();
@@ -180,32 +175,29 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case ShortcutLineMoveIntent:
+      case 'ShortcutLineMoveIntent':
         {
-          if ((intent as ShortcutLineMoveIntent).direction ==
-              VerticalDirection.up) {
+          if ((intent as ShortcutLineMoveIntent).direction == VerticalDirection.up) {
             editingController.moveSelectionLinesUp();
           } else {
             editingController.moveSelectionLinesDown();
           }
           break;
         }
-      case CodeShortcutIndentIntent:
+      case 'CodeShortcutIndentIntent':
         {
           editingController.applyIndent();
           break;
         }
-      case CodeShortcutOutdentIntent:
+      case 'CodeShortcutOutdentIntent':
         {
           editingController.applyOutdent();
           break;
         }
-      case CodeShortcutCommentIntent:
+      case 'CodeShortcutCommentIntent':
         {
           final CodeLineEditingValue? value = commentFormatter?.format(
-              editingController.value,
-              editingController.options.indent,
-              (intent as CodeShortcutCommentIntent).single);
+              editingController.value, editingController.options.indent, (intent as CodeShortcutCommentIntent).single);
           if (value != null) {
             editingController.runRevocableOp(() {
               editingController.value = value;
@@ -213,13 +205,12 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutCursorMoveIntent:
+      case 'CodeShortcutCursorMoveIntent':
         {
-          editingController
-              .moveCursor((intent as CodeShortcutCursorMoveIntent).direction);
+          editingController.moveCursor((intent as CodeShortcutCursorMoveIntent).direction);
           break;
         }
-      case CodeShortcutCursorMoveLineEdgeIntent:
+      case 'CodeShortcutCursorMoveLineEdgeIntent':
         {
           if ((intent as CodeShortcutCursorMoveLineEdgeIntent).forward) {
             editingController.moveCursorToLineEnd();
@@ -228,7 +219,7 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutCursorMoveDocEdgeIntent:
+      case 'CodeShortcutCursorMoveDocEdgeIntent':
         {
           if ((intent as CodeShortcutCursorMoveDocEdgeIntent).forward) {
             editingController.moveCursorToPageEnd();
@@ -237,7 +228,7 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutCursorMovePageIntent:
+      case 'CodeShortcutCursorMovePageIntent':
         {
           if ((intent as CodeShortcutCursorMovePageIntent).forward) {
             editingController.moveCursorToPageDown();
@@ -246,7 +237,7 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutCursorMoveWordBoundaryIntent:
+      case 'CodeShortcutCursorMoveWordBoundaryIntent':
         {
           if ((intent as CodeShortcutCursorMoveWordBoundaryIntent).forward) {
             editingController.moveCursorToWordBoundaryForward();
@@ -255,13 +246,12 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutSelectionExtendIntent:
+      case 'CodeShortcutSelectionExtendIntent':
         {
-          editingController.extendSelection(
-              (intent as CodeShortcutSelectionExtendIntent).direction);
+          editingController.extendSelection((intent as CodeShortcutSelectionExtendIntent).direction);
           break;
         }
-      case CodeShortcutSelectionExtendLineEdgeIntent:
+      case 'CodeShortcutSelectionExtendLineEdgeIntent':
         {
           if ((intent as CodeShortcutSelectionExtendLineEdgeIntent).forward) {
             editingController.extendSelectionToLineEnd();
@@ -270,7 +260,7 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutSelectionExtendPageEdgeIntent:
+      case 'CodeShortcutSelectionExtendPageEdgeIntent':
         {
           if ((intent as CodeShortcutSelectionExtendPageEdgeIntent).forward) {
             editingController.extendSelectionToPageEnd();
@@ -279,17 +269,16 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutSelectionExtendWordBoundaryIntent:
+      case 'CodeShortcutSelectionExtendWordBoundaryIntent':
         {
-          if ((intent as CodeShortcutSelectionExtendWordBoundaryIntent)
-              .forward) {
+          if ((intent as CodeShortcutSelectionExtendWordBoundaryIntent).forward) {
             editingController.extendSelectionToWordBoundaryForward();
           } else {
             editingController.extendSelectionToWordBoundaryBackward();
           }
           break;
         }
-      case ShortcutWordDeleteDirectionIntent:
+      case 'ShortcutWordDeleteDirectionIntent':
         {
           if ((intent as ShortcutWordDeleteDirectionIntent).forward) {
             editingController.deleteWordForward();
@@ -298,7 +287,7 @@ class _CodeShortcutActions extends StatelessWidget {
           }
           break;
         }
-      case CodeShortcutDeleteIntent:
+      case 'CodeShortcutDeleteIntent':
         {
           if ((intent as CodeShortcutDeleteIntent).forward) {
             editingController.deleteForward();
@@ -309,37 +298,37 @@ class _CodeShortcutActions extends StatelessWidget {
           keepAutoCompleateState = true;
           break;
         }
-      case CodeShortcutNewLineIntent:
+      case 'CodeShortcutNewLineIntent':
         {
           editingController.applyNewLine();
           break;
         }
-      case CodeShortcutTransposeCharactersIntent:
+      case 'CodeShortcutTransposeCharactersIntent':
         {
           editingController.transposeCharacters();
           break;
         }
-      case CodeShortcutFindIntent:
+      case 'CodeShortcutFindIntent':
         {
           findController?.findMode();
           break;
         }
-      case CodeShortcutFindToggleMatchCaseIntent:
+      case 'CodeShortcutFindToggleMatchCaseIntent':
         {
           findController?.toggleCaseSensitive();
           break;
         }
-      case CodeShortcutFindToggleRegexIntent:
+      case 'CodeShortcutFindToggleRegexIntent':
         {
           findController?.toggleRegex();
           break;
         }
-      case CodeShortcutReplaceIntent:
+      case 'CodeShortcutReplaceIntent':
         {
           findController?.replaceMode();
           break;
         }
-      case CodeShortcutEscIntent:
+      case 'CodeShortcutEscIntent':
         {
           if (findController?.value != null) {
             findController?.close();
@@ -350,16 +339,14 @@ class _CodeShortcutActions extends StatelessWidget {
         }
     }
     if (!keepAutoCompleateState) {
-      final _CodeAutocompleteState? autocompleteState =
-          context.findAncestorStateOfType<_CodeAutocompleteState>();
+      final _CodeAutocompleteState? autocompleteState = context.findAncestorStateOfType<_CodeAutocompleteState>();
       autocompleteState?.dismiss();
     }
     return intent;
   }
 }
 
-class _CompoDoNothingCallbackAction<T extends Intent>
-    extends CallbackAction<T> {
+class _CompoDoNothingCallbackAction<T extends Intent> extends CallbackAction<T> {
   final CodeLineEditingController controller;
 
   _CompoDoNothingCallbackAction({
@@ -385,7 +372,6 @@ class _EscCallbackAction<T extends Intent> extends CallbackAction<T> {
 
   @override
   bool isEnabled(T intent) {
-    return !controller.isComposing &&
-        (findController?.value != null || !controller.selection.isCollapsed);
+    return !controller.isComposing && (findController?.value != null || !controller.selection.isCollapsed);
   }
 }
