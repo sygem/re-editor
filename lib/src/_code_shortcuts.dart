@@ -125,6 +125,7 @@ class _CodeShortcutActions extends StatelessWidget {
       return null;
     }
     bool keepAutoCompleateState = false;
+    debugPrint(intent.runtimeType.toString());
     switch (intent.runtimeType.toString()) {
       case 'CodeShortcutSelectAllIntent':
         {
